@@ -56,3 +56,38 @@ function displayBooks() {
   alert(message);
 }
 
+function borrowBook() {
+  const availableBooks = books.filter(book => book.available);
+
+  if (availableBooks.length === 0) {
+    alert("No books available for borrowing!");
+    return;
+  }
+  // Create book selection list
+  let message = "Available Books:\n";
+  availableBooks.forEach((book, index) => {
+    message += `${index + 1}. ${book.title}\n`;
+  });
+
+  const selection = prompt(`${message}\nEnter the number of the book you want to borrow:`);
+  const selectedIndex = parseInt(selection) - 1;
+
+  if (isNaN(selectedIndex)) {
+    alert("Please enter a valid number!");
+    return;
+  }
+
+
+  if (selectedIndex < 0 || selectedIndex >= availableBooks.length) {
+    alert("Invalid selection!");
+    return;
+  }
+
+  // Update book availability
+  const selectedBook = availableBooks[selectedIndex];
+  const bookIndex = books.findIndex(book => book.id === selectedBook.id);
+
+  books[bookIndex].available = false;
+  alert(`You've successfully borrowed "${selectedBook.title}"!`);
+}
+
