@@ -91,3 +91,41 @@ function borrowBook() {
   alert(`You've successfully borrowed "${selectedBook.title}"!`);
 }
 
+function returnBook() {
+
+  // Get currently borrowed books
+  const borrowedBooks = books.filter(book => !book.available);
+
+  if (borrowedBooks.length === 0) {
+    alert("No books to return!");
+    return;
+  }
+
+  // Create return selection list
+  let message = "Borrowed Books:\n";
+  borrowedBooks.forEach((book, index) => {
+    message += `${index + 1}. ${book.title}\n`;
+  });
+
+  const selection = prompt(`${message}\nEnter the number of the book you want to return:`);
+  const selectedIndex = parseInt(selection) - 1;
+
+  if (isNaN(selectedIndex)) {
+    alert("Please enter a valid number!");
+    return;
+  }
+
+  if (selectedIndex < 0 || selectedIndex >= borrowedBooks.length) {
+    alert("Invalid selection!");
+    return;
+  }
+
+  const selectedBook = borrowedBooks[selectedIndex];
+  const bookIndex = books.findIndex(book => book.id === selectedBook.id);
+
+  books[bookIndex].available = true;
+  alert(`Thank you for returning "${selectedBook.title}"!`);
+}
+
+// Start the app
+bookLendingApp();
